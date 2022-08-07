@@ -15,12 +15,9 @@
   <input type="text" th:field="*{dob}" id="dob"/>
   <div style="color:red" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">Dob Error</div>
   <br/>
-<!--  <label for="email">Enter email: </label>-->
-<!--  <input type="text" th:field="*{email}" id="email"/>-->
-<!--  <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>-->
-<!--  <br/>-->
-  <input type="submit" value="Create!"/>
+  <input type="submit" value="Создать!"/>
 </form>
-
+<br/>
+<a th:href="@{/people/}">Вернуться</a>
 </body>
 </html>

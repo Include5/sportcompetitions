@@ -7,13 +7,13 @@
 <body>
 <p th:text="${person.getName() + ', ' + person.getDob()}">VALUE</p>
 
-<p th:text="${'Человека пока не взял ни одной книги'}" th:if="${books.size() == 0}">NoBooks</p>
+<p th:text="${'Человека пока не взял ни одной книги'}" th:if="${books.isEmpty()}">NoBooks</p>
 
 <hr>
 
-<b th:text="'Книги:'" th:if="${books.size() > 0}">books</b>
+<b th:text="'Книги:'" th:if="${!books.isEmpty()}">books</b>
 <div th:each="book : ${books}">
-  <a th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getDoc()}">user</a>
+  <a th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getDoc()}" th:style="${book.isExpired()} ? 'color: red' : 'color: black'">user</a>
 </div>
 
 <hr th:if="${books.size() > 0}">

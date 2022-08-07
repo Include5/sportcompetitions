@@ -6,15 +6,25 @@
 </head>
 <body>
 
+<a href="/books?sort_by_year=true">Сортировка по дате выхода </a>
+<a>|</a>
+<a href="/books"> Обычная сортировка</a>
+<br/>
+<hr/>
+
 <div th:each="knigi : ${books}">
-    <a th:href="@{/books/{id}(id=${knigi.getBook_id()})}"
+    <a th:href="@{/books/{id}(id=${knigi.getId()})}"
        th:text="${knigi.getTitle() + ', ' + knigi.getAuthor() + ', ' + knigi.getDoc()}">user</a>
+
 </div>
 
 <br/>
 <hr/>
 
 <a href="/books/new">Добавить книгу</a>
-
+<br/>
+<a href="/books/search">Поиск книги</a>
+<br/>
+<a href="/">Назад</a>
 </body>
 </html>
