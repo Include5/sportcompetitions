@@ -29,10 +29,5 @@ public class CompetitionValidator implements Validator {
         Competition competition = (Competition) target;
 
 
-//        boolean dateTrue = (competition.getDate() instanceof Date);
-//
-//        if (!dateTrue)
-//            errors.rejectValue("date", "java.lang.IllegalArgumentException:", "Дата должна быть формата дд/мм/гггг");
-
     }
 }
