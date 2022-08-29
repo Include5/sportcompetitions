@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Show</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    input[type=text],
+    select {
+      width: 100%;
+      padding: 5px 12px;
+      box-sizing: border-box;
+      font-size: 14px;
+      line-height: 20px;
+      vertical-align: middle;
+      background-color: #010409;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    input[type=text]:focus,
+    select:focus {
+      background-color: #0d1117;
+      box-shadow: inset 0 0 0 1px transparent;
+      outline: none;
+      border-color: #58a6ff;
+    }
+
+    input[type=text]::placeholder {
+      color: #6e7681;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      cursor: default;
+      margin-bottom: 6px;
+    }
+
+    .error {
+      color: #f85149;
+    }
+
+    select {
+      padding: 5px 12px !important;
+    }
+
+    button[type=submit],
+    .btn {
+      width: 100%;
+      position: relative;
+      font-size: 14px;
+      line-height: 20px;
+      justify-content: center;
+      border-radius: 6px;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+      text-align: center;
+      align-items: center;
+      font-weight: 500;
+      display: inline-flex;
+      vertical-align: middle;
+      user-select: none;
+      padding: 5px 16px;
+      cursor: pointer;
+      letter-spacing: 0.025em;
+    }
+
+    .btn-primary {
+      border: 1px solid rgba(240, 246, 252, 0.1);
+      background-color: #238636;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #2ea043;
+      border-color: rgba(240, 246, 252, 0.1);
+    }
+
+    .btn-danger {
+      border: 1px solid rgba(240, 246, 252, 0.1) !important;
+      background-color: #21262d !important;
+      color: #f85149 !important;
+    }
+
+    .btn-danger:hover {
+      background-color: #da3633 !important;
+      border-color: rgba(240, 246, 252, 0.1) !important;
+      color: white !important;
+    }
+
+    button[type=submit],
+    .btn-block {
+      border: 1px solid rgba(240, 246, 252, 0.1);
+      background-color: #21262d;
+      color: #c9d1d9;
+    }
+
+    button[type=submit]:hover,
+    .btn-block:hover {
+      background-color: #30363d;
+      border-color: #8b949e;
+    }
+
+    .field {
+      margin-top: 1rem;
+    }
+
+    hr {
+      height: 0;
+      margin-top: 16px;
+      margin-bottom: 16px;
+      background-color: transparent;
+      overflow: hidden;
+      border-width: 0;
+      border-bottom-width: 1px;
+      border-color: #21262d;
+    }
+  </style>
+</head>
+
+<body class="bg-[#0d1117] text-[#c9d1d9] text-sm leading-[1.5] break-words flex justify-center h-screen">
+  <div class="lg:px-8 md:px-6 px-4 my-6 max-w-xl w-full mx-auto block space-y-6">
+    <h1 th:text="${'Участник под номером: ' + member.getId()}"></h1>
+    <hr>
+    <p th:text="${'ФИО: ' + member.getName()}">VALUE</p>
+    <p th:text="${'Дата рождения: ' + member.getDateOfBirth()}"></p>
+    <p
+      th:text="${member.getCountry() == null || member.getCountry().equals('')} ? 'Страна не указана ' : ${'Страна: ' + member.getCountry()}">
+    </p>
+    <p
+      th:text="${member.getCity() == null || member.getCity().equals('')} ? 'Город не указан' : ${'Город: ' + member.getCity()}">
+    </p>
+    <p th:text="${member.getGrowth() == 0} ? 'Рост не указан' : ${'Рост: ' + member.getGrowth()}">GROWTH</p>
+    <p th:text="${member.getWeight() == 0} ? 'Вес не указан' : ${'Вес: ' + member.getWeight()}">WEIGHT</p>
+    <!--<p th:text="${member.getTeam() == null} ? 'Команды нет' :  ${'Команда: ' + member.getTeam().getName()}">TEAM</p>-->
+    <p th:if="${member.getTeam() == null}" th:text="'Команды нет'">TEAMEMPTY</p>
+    <p th:if="${member.getTeam() != null}" th:text="${'Команда: ' + member.getTeam().getName()}">TEAM</p>
+
+
+
+
+    <form th:if="${member.getTeam() == null}" th:method="PATCH"
+      th:action="@{/members/{id}/assignTeam(id=${member.getId()})}">
+      <label for="team">Выберите команду:</label>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="col-span-2">
+          <select th:object="${team}" th:field="*{id}" id="team">
+            <option th:each="team : ${teamList}" th:value="${team.getId()}" th:text="${team.getName()}"></option>
+          </select>
+        </div>
+        <button type="submit">Назначить</button>
+      </div>
+    </form>
+
+    <form th:if="${member.getTeam() != null}" th:method="PATCH"
+      th:action="@{/members/{id}/release(id=${member.getId()})}">
+
+
+
+      <div class="grid grid-cols-2 gap-2">
+        <button class="btn-danger" type="submit">Выгнать</button>
+
+        <a class="btn btn-block" th:if="${member.getTeam() != null}"
+          th:href="@{/teams/{id}(id=${member.getTeam().getId()})}">Перейти к
+          команде</a>
+      </div>
+    </form>
+
+    <hr>
+    <form class="mt-4" th:method="DELETE" th:action="@{/members/{id}(id=${member.getId()})}">
+
+      <div class="grid grid-cols-3 gap-2">
+        <a class="btn btn-block" th:href="@{/members/}">Вернуться</a>
+        <button class="btn-danger" type="submit">Удалить</button>
+        <a class="btn btn-primary" th:href="@{/members/{id}/edit(id=${member.getId()})}">Редактировать</a>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

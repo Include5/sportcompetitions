@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>New competition</title>
+
+    <style>
+        input[type=text],
+        select {
+            width: 100%;
+            padding: 5px 12px;
+            box-sizing: border-box;
+            font-size: 14px;
+            line-height: 20px;
+            vertical-align: middle;
+            background-color: #010409;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+
+        input[type=text]:focus,
+        select:focus {
+            background-color: #0d1117;
+            box-shadow: inset 0 0 0 1px transparent;
+            outline: none;
+            border-color: #58a6ff;
+        }
+
+        input[type=text]::placeholder {
+            color: #6e7681;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            cursor: default;
+            margin-bottom: 6px;
+        }
+
+        .error {
+            color: #f85149;
+        }
+
+        select {
+            padding: 5px 12px !important;
+        }
+
+        button[type=submit],
+        a {
+            width: 100%;
+
+            position: relative;
+            font-size: 14px;
+            line-height: 20px;
+            justify-content: center;
+            border-radius: 6px;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+            text-align: center;
+            align-items: center;
+            font-weight: 500;
+            display: inline-flex;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            padding: 5px 16px;
+            cursor: pointer;
+            letter-spacing: 0.025em;
+
+        }
+
+        button[type=submit] {
+            border: 1px solid rgba(240, 246, 252, 0.1);
+            background-color: #238636;
+            color: white;
+        }
+
+        button[type=submit]:hover {
+            background-color: #2ea043;
+            border-color: rgba(240, 246, 252, 0.1);
+        }
+
+        a {
+            border: 1px solid rgba(240, 246, 252, 0.1);
+            background-color: #21262d;
+            color: #c9d1d9;
+        }
+
+        a:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+        }
+
+        .field {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+
+<body class="bg-[#0d1117] text-[#c9d1d9] text-sm leading-[1.5] break-words flex justify-center h-screen">
+    <div class="lg:px-8 md:px-6 px-4 my-6 max-w-md w-full mx-auto block space-y-6">
+        <form th:method="POST" th:action="@{/competitions}" th:object="${competition}">
+
+            <div class="field">
+                <label for="title">Введите название мероприятия: </label>
+                <input type="text" th:field="*{title}" id="title" />
+                <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">title Error</div>
+            </div>
+
+            <div class="field">
+                <label for="location">Введите место проведение: </label>
+                <input type="text" th:field="*{location}" id="location" />
+                <div class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">location Error
+                </div>
+            </div>
+            <div class="field">
+                <label for="description">Введите описания мероприятия: </label>
+                <input type="text" th:field="*{description}" id="description" />
+                <div class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                    description
+                    Error
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="date">Введите дату мероприятия (день/месяц/год):</label>
+                <input type="text" th:field="*{date}" id="date" />
+                <div class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">date Error</div>
+            </div>
+            <div class="field">
+                <label for="discipline">Выберите дисциплину</label>
+                <select id="discipline" name="discipline" th:object="${competition}">
+                    <option th:each="disciplines : ${discplineList}" th:value="${disciplines.getId()}"
+                        th:field="*{discipline}" th:text="${disciplines.getName()}"></option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="teamed">Мероприятие командное?</label>
+                <select id="teamed" name="teamed" th:field="*{teamed}">
+                    <option value="true">Да</option>
+                    <option value="false" selected="selected">Нет</option>
+                </select>
+            </div>
+            <div class="field grid grid-cols-2 gap-2">
+                <a th:href="@{/competitions/}">Вернуться</a>
+                <button type="submit">Создать</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
