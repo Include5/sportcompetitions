@@ -1,4 +1,4 @@
-package ru.strelkov.lib.config;
+package ru.strelkov.sportcompetitions.config;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
